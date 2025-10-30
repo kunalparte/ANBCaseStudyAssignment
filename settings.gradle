@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) // or PREFER_SETTINGS
+    repositories {
+        google()
+        mavenCentral()
+        // maven { url 'https://jitpack.io' } // if you need it
+    }
+}
+
+rootProject.name = "ANBCaseStudyAssignment"
+include ':app'
