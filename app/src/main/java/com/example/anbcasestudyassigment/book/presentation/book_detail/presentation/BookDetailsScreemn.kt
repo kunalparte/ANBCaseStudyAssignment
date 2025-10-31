@@ -1,51 +1,30 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.anbcasestudyassigment.book.presentation.book_detail.presentation
 
-import androidx.compose.runtime.Composable
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.example.anbcasestudyassigment.book.presentation.book_detail.presentation.components.BookCover
 import com.example.anbcasestudyassigment.book.presentation.book_detail.presentation.components.LabeledValue
 import com.example.anbcasestudyassigment.books.domain.Book
 
-// Your data class (as given)
-/*
-data class Book(
-    val id: String,
-    val title: String,
-    val imageUrl: String,
-    val authors: List<String>,
-    val description: String?,
-    val languages: List<String>,
-    val firstPublishYear: String?,
-    val averageRating: Double?,
-    val ratingCount: Int?,
-    val numPages: Int?,
-    val numEditions: Int
-)
-*/
-
 @Composable
 fun BookDetailsScreen(
     book: Book,
-    onBack: (() -> Unit)? = null
+    onBack: () -> Unit
 ) {
     Scaffold(
-        /*topBar = {
+        topBar = {
             TopAppBar(
                 title = {
                     Text(
@@ -55,14 +34,15 @@ fun BookDetailsScreen(
                     )
                 },
                 navigationIcon = {
-                    if (onBack != null) {
-                        IconButton(onClick = onBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 }
             )
-        }*/
+        }
     ) { padding ->
         BookDetailsContent(
             book = book,
@@ -76,18 +56,17 @@ private fun BookDetailsContent(
     book: Book,
     contentPadding: PaddingValues
 ) {
-    val scroll = rememberScrollState()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .padding(contentPadding)
-            .verticalScroll(scroll)
+            .verticalScroll(scrollState)
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        // Cover component
+        // Cover
         BookCover(
             imageUrl = book.imageUrl,
             contentDescription = book.title
@@ -111,7 +90,7 @@ private fun BookDetailsContent(
             )
         }
 
-        // Rating (average + count)
+        // Rating
         if (book.averageRating != null || book.ratingCount != null) {
             Spacer(Modifier.height(8.dp))
             RatingRow(
@@ -158,12 +137,10 @@ private fun BookDetailsContent(
 
 @Composable
 fun RatingRow(average: Double?, count: Int?) {
-    TODO("Not yet implemented")
+    // TODO: Implement visual rating display
 }
 
 @Composable
 fun LabeledBlock(label: String, text: String) {
-    TODO("Not yet implemented")
+    // TODO: Implement label + description block
 }
-
-

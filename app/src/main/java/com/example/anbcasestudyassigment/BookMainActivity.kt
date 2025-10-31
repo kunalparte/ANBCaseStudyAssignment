@@ -71,9 +71,6 @@ class BookMainActivity : ComponentActivity(){
                             book = book,
                             onBack = { navController.popBackStack() }
                         )
-                    } else {
-                        // Fallback UI or navigate up
-                        LaunchedEffect(Unit) { navController.popBackStack() }
                     }
                 }
             }
