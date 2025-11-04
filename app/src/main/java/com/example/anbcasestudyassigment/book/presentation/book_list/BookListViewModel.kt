@@ -1,10 +1,12 @@
 package com.example.anbcasestudyassigment.book.presentation.book_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anbcasestudyassigment.books.domain.BookRepository
 import com.example.anbcasestudyassigment.core.data.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ class BookListViewModel @Inject constructor(
     }
 
     fun getBookListData(queryMap: Map<String, Any>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.getBookList(queryMap)
             when (val result = repository.apiResultState.value) {
                 is ApiResult.SuccessResult -> {
