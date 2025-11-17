@@ -1,6 +1,5 @@
 package com.example.anbcasestudyassigment.book.data.repository
 
-import com.example.anbcasestudyassigment.book.data.dto.BookDTO
 import com.example.anbcasestudyassigment.book.data.dto.BookListDTO
 import com.example.anbcasestudyassigment.book.data.mapper.toBook
 import com.example.anbcasestudyassigment.books.domain.Book
@@ -18,8 +17,8 @@ class BookRepositoryImpl @Inject constructor(
 ) : BookRepository {
 
     private val _apiResultState =
-        MutableStateFlow<ApiResult<List<Book>>>(ApiResult.SuccessResult(emptyList()))
-    override val apiResultState: StateFlow<ApiResult<List<Book>>> = _apiResultState
+        MutableStateFlow<ApiResult<BookListDTO>>(ApiResult.SuccessResult(BookListDTO(emptyList())))
+    override val apiResultState: StateFlow<ApiResult<BookListDTO>> = _apiResultState
 
     override suspend fun getBookList(queryMap: Map<String, Any>) {
         val listType = object : TypeToken<BookListDTO>() {}.type
@@ -29,7 +28,7 @@ class BookRepositoryImpl @Inject constructor(
             responseType = listType,
             onSuccess = { bookListData: BookListDTO ->
                 val books = bookListData.results.map { it.toBook() }
-                _apiResultState.value = ApiResult.SuccessResult(books) // <-- Kotlin style (no <>)
+                _apiResultState.value = ApiResult.SuccessResult(bookListData) // <-- Kotlin style (no <>)
             },
             onError = { error: String ->
                 _apiResultState.value = ApiResult.ErrorResult(error)

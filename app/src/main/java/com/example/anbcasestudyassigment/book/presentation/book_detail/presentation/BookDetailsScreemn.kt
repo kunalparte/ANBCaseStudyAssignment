@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.anbcasestudyassigment.book.presentation.book_detail.presentation.components.BookCover
 import com.example.anbcasestudyassigment.book.presentation.book_detail.presentation.components.LabeledValue
 import com.example.anbcasestudyassigment.books.domain.Book
+import com.example.anbcasestudyassigment.core.presentation.AppToolbar
 
 @Composable
 fun BookDetailsScreen(

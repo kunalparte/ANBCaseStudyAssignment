@@ -6,4 +6,6 @@ import com.example.anbcasestudyassigment.books.domain.Book
 sealed interface BookListScreenActions {
     data class OnBookClicked(val book : Book) : BookListScreenActions
     data class OnBookListScrolledToPaginate(var pageCount : Int) : BookListScreenActions
+
+    data class onRefresh(val isRefresh : Boolean) : BookListScreenActions
 }

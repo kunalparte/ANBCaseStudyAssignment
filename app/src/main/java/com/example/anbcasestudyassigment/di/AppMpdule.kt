@@ -3,12 +3,15 @@ package com.example.anbcasestudyassigment.di
 
 import com.example.anbcasestudyassigment.core.network.ApiConstants
 import com.example.anbcasestudyassigment.core.network.ApiService
+import com.example.anbcasestudyassigment.utils.ProdCoroutineDispatcher
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -59,6 +62,11 @@ object AppMpdule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    fun providesProdCoroutineDispatcher(): ProdCoroutineDispatcher{
+        return ProdCoroutineDispatcher()
     }
 
 }

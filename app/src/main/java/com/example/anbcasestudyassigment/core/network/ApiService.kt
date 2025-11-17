@@ -11,7 +11,7 @@ interface ApiService {
     @GET(ApiConstants.SEARCH_BOOKS)
     suspend fun getBookList(
         @Query("page") page: Int ,
-        @Query("title") title: String = "marvel",
+        @Query("title") title: String = "fiction",
         @Query("limit") limit: Int = 20
     ): Response<BookListDTO>
 }

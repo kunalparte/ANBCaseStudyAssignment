@@ -25,6 +25,5 @@ fun BookDTO.toBook() : Book {
         numEditions = edition_count ?: 0
     )
 
-    Log.d("KUNALBOOKData", Gson().toJson( book))
     return book
 }

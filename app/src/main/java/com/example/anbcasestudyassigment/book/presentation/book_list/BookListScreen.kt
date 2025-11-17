@@ -3,10 +3,13 @@
 package com.example.anbcasestudyassigment.book.presentation.book_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,35 +18,67 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.anbcasestudyassigment.books.domain.Book
 import com.example.anbcasestudyassigment.books.presentation.book_list.components.BookList
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun BookListScreenRoot(
     viewModel: BookListViewModel = hiltViewModel(),
     onBookClick: (book: Book) -> Unit,
     modifier: Modifier = Modifier
+        .clickable{
+            viewModel.onAction(BookListScreenActions.onRefresh(isRefresh = true))
+        }
 ) {
     val state = viewModel.bookListState.collectAsState()
 
-    BookListScreen(
-        state = state.value,
-        onAction = { action ->
-            when (action) {
-                is BookListScreenActions.OnBookClicked -> {
-                    onBookClick(action.book)
-                }
-                is BookListScreenActions.OnBookListScrolledToPaginate -> {
-                    viewModel.getBookListData(
-                        mapOf(
-                            "page" to action.pageCount,
-                            "limit" to 20
-                        )
-                    )
-                }
-                else -> Unit
-            }
-        },
-        modifier = modifier
-    )
+    LaunchedEffect(state.value.page)  {
+       viewModel.bookListScreenEvents.collect() {
+           when(it){
+               is BookListScreenEvents.showToast -> {
+
+               }
+
+               is BookListScreenEvents.navigateToBookDetails -> {
+                   onBookClick(it.book)
+               }
+
+               else -> {
+
+               }
+           }
+       }
+   }
+
+    if (state.value.books.isNotEmpty()) {
+            BookListScreen(
+                state = state.value,
+                onAction = { action ->
+                    viewModel.onAction(action)
+                },
+                modifier = modifier
+            )
+        }
+
+    if (state.value.isLoading ){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = Color.Transparent.copy(alpha = 0.3f)
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(
+                        color = Color.Transparent
+                    ),
+                color = Color.Red
+            )
+        }
+    }
+
 }
 
 @Composable

@@ -19,6 +19,7 @@ import com.example.anbcasestudyassigment.book.presentation.book_detail.presentat
 import com.example.anbcasestudyassigment.book.presentation.book_list.BookListScreenRoot
 import com.example.anbcasestudyassigment.books.domain.Book
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.LinkedList
 
 @AndroidEntryPoint
 class BookMainActivity : ComponentActivity(){
@@ -69,14 +70,15 @@ class BookMainActivity : ComponentActivity(){
                     if (book != null) {
                         BookDetailsScreen(
                             book = book,
-                            onBack = { navController.popBackStack() }
+                            onBack = {
+                                navController.popBackStack()
+                            }
                         )
                     }
                 }
             }
         }
     }
-
 
 
 }
